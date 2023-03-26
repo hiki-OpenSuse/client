@@ -1,14 +1,19 @@
-export interface IPropsLogin {
-    setPassword: (value: string) => void,
-    setEmail: (value: string) => void
+import {FieldErrors, FieldValues, UseFormRegister} from "react-hook-form";
+
+export interface IPropsLogin<
+    TFieldValues extends FieldValues = FieldValues,
+    TContext = any,
+> {
+    register: UseFormRegister<TFieldValues>,
+    errors: FieldErrors<TFieldValues>
 }
 
-export interface  IPropsRegister {
-    setPassword: (value: string) => void,
-    setEmail: (value: string) => void,
-    setRepeatPassword: (value: string) => void,
-    setFirstName: (value: string) => void,
-    setUserName: (value: string) => void
+export interface IPropsRegister<
+    TFieldValues extends FieldValues = FieldValues,
+    TContext = any,
+> {
+    register: UseFormRegister<TFieldValues>,
+    errors: FieldErrors<TFieldValues>
 }
 
 export interface IAuthState {
@@ -16,7 +21,7 @@ export interface IAuthState {
     isLogged: boolean
 }
 
-interface  IPublicUser {
+interface IPublicUser {
     id: number | null,
     firstName: string,
     userName: string,
