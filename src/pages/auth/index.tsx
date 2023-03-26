@@ -1,31 +1,36 @@
-import {FC, useState} from 'react';
+import {FC} from 'react';
 import {useLocation, useNavigate} from "react-router-dom";
 import LoginPage from "./login";
 import RegisterPage from "./register";
-import './style.scss'
 import {Box} from "@mui/material";
 import {instance} from "../../utils/axios";
 import {useAppDispatch} from "../../utils/hook";
 import {login} from "../../store/slice/auth";
 import {AppErrors} from "../../common/errors";
+import {useForm} from "react-hook-form";
+import { yupResolver } from '@hookform/resolvers/yup';
+import {LoginSchema, RegisterSchema} from "../../utils/yup";
+import {useStyles} from "./style";
 
 const AuthRootComponent: FC = (): JSX.Element => {
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-    const [repeatPassword, setRepeatPassword] = useState('')
-    const [firstName, setFirstName] = useState('')
-    const [userName, setUserName] = useState('')
+    const classes = useStyles()
     const location = useLocation()
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
-
-    const handleSubmit = async (e: { preventDefault: () => void }) => {
-        e.preventDefault()
+    const {
+        register,
+        formState: {
+            errors
+        }, handleSubmit
+    } = useForm({
+        resolver: yupResolver(location.pathname === '/login' ? LoginSchema : RegisterSchema)
+    })
+    const handleSubmitForm = async (data: any) => {
         if (location.pathname === '/login') {
             try {
                 const userData = {
-                    email,
-                    password
+                    email: data.email,
+                    password: data.password
                 }
                 const user = await instance.post('auth/login', userData)
                 await dispatch(login(user.data))
@@ -34,13 +39,13 @@ const AuthRootComponent: FC = (): JSX.Element => {
                 return e
             }
         } else if (location.pathname === '/register') {
-            if (password === repeatPassword) {
+            if (data.password === data.confirmPassword) {
                 try {
                     const userData = {
-                        firstName,
-                        userName,
-                        email,
-                        password
+                        firstName: data.firstName,
+                        userName: data.userName,
+                        email: data.email,
+                        password: data.password
                     }
                     const newUser = await instance.post('auth/register', userData)
                     await dispatch(login(newUser.data))
@@ -56,8 +61,8 @@ const AuthRootComponent: FC = (): JSX.Element => {
     }
 
     return (
-        <div className="root">
-            <form className="form" onSubmit={handleSubmit}>
+        <div className={classes.root}>
+            <form className={classes.form} onSubmit={handleSubmit(handleSubmitForm)}>
                 <Box
                     margin='auto'
                     padding={5}
@@ -67,13 +72,11 @@ const AuthRootComponent: FC = (): JSX.Element => {
                     alignItems='center'
                     flexDirection='column'
                     borderRadius={5}
-                    boxShadow={'5px 5px 10px #ccc'}
+                    boxShadow={'-3px -2px 20px 1px #202020'}
                 >
                     {location.pathname === '/login' ?
-                        <LoginPage setEmail={setEmail} setPassword={setPassword}/> : location.pathname === '/register' ?
-                            <RegisterPage setEmail={setEmail} setPassword={setPassword}
-                                          setRepeatPassword={setRepeatPassword}
-                                          setFirstName={setFirstName} setUserName={setUserName}/> : null}
+                        <LoginPage register={register} errors={errors}/> : location.pathname === '/register' ?
+                            <RegisterPage register={register} errors={errors}/> : null}
                 </Box>
             </form>
         </div>
