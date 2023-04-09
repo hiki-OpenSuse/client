@@ -8,7 +8,7 @@ export const useStyles = makeStyles((theme: Theme) => {
         {
             navBlock: {
                 width: '100%',
-                borderBottom: `1px solid ${colors.borderColor}`
+                borderBottom: `1px solid ${colors.borderColor}`,
             },
             brand: {
                 display: 'flex',
@@ -24,6 +24,7 @@ export const useStyles = makeStyles((theme: Theme) => {
                 marginBottom: '55px !important'
             },
             navItem: {
+                width: '215px !important',
                 '&:hover': {
                     backgroundColor: '#1900D5 !important',
                     borderRadius: '4px',
@@ -36,7 +37,10 @@ export const useStyles = makeStyles((theme: Theme) => {
             active: {
                 backgroundColor: '#1900D5 !important',
                 color: '#fff !important',
-                borderRadius: '4px !important'
+                borderRadius: '4px !important',
+                '& .MuiSvgIcon-root': {
+                    color: `${colors.white.DEFAULT} !important`
+                }
             }
         }
     )
