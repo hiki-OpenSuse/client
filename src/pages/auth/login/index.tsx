@@ -3,10 +3,11 @@ import {IPropsLogin} from "../../../common/types/auth";
 import {FC} from "react";
 import {Link} from "react-router-dom";
 import {useStyles} from "./style";
-import AppButton from "../../../components/app-button";
+import AppLoadingButton from "../../../components/loading-button";
+
 const LoginPage: FC<IPropsLogin> = (props: IPropsLogin): JSX.Element => {
     const classes = useStyles()
-    const {register, errors} = props
+    const {register, errors, loading} = props
     return (
         <>
             <Typography variant="h2" textAlign='center' fontSize={32}>Авторизация</Typography>
@@ -33,7 +34,7 @@ const LoginPage: FC<IPropsLogin> = (props: IPropsLogin): JSX.Element => {
                 helperText={errors.password ? `${errors.password.message}` : ''}
                 {...register('password')}
             />
-            <AppButton type="submit" variant="contained">Войти</AppButton>
+            <AppLoadingButton loading={loading} type="submit" variant="contained">Войти</AppLoadingButton>
             <Typography variant="body1">У вас нет аккаунта?<Link to='/register' className={classes.incitingText}>Регистрация</Link></Typography>
         </>
     );

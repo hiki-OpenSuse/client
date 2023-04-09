@@ -3,11 +3,11 @@ import {TextField, Typography} from "@mui/material";
 import {IPropsRegister} from "../../../common/types/auth";
 import {Link} from "react-router-dom";
 import {useStyles} from "./style";
-import AppButton from "../../../components/app-button";
+import AppLoadingButton from "../../../components/loading-button";
 
 const RegisterPage: FC<IPropsRegister> = (props: IPropsRegister): JSX.Element => {
     const classes = useStyles()
-    const {register, errors} = props
+    const {register, errors, loading} = props
     return (
         <>
             <Typography variant="h2" textAlign='center' fontSize={32}>Регистрация</Typography>
@@ -59,7 +59,7 @@ const RegisterPage: FC<IPropsRegister> = (props: IPropsRegister): JSX.Element =>
                        helperText={errors.confirmPassword ? `${errors.confirmPassword.message}` : ''}
                        {...register('confirmPassword')}
             />
-            <AppButton type="submit" variant="contained">регистрация</AppButton>
+            <AppLoadingButton loading={loading} type="submit" variant="contained">регистрация</AppLoadingButton>
             <Typography variant="body1">У вас нет аккаунта?<Link to='/login' className={classes.incitingText}>Авторизация</Link></Typography>
         </>
     );

@@ -14,29 +14,6 @@ export const useStyles = makeStyles((theme: Theme) => {
             toolbar: {
                 padding: '25px 45px',
                 justifyContent: 'space-between'
-            },
-            iconBlock: {
-                paddingRight: '37px',
-                borderRight: `1px solid ${colors.borderColor}`
-            },
-            themIcon: {
-                marginRight: '45px !important'
-            },
-            searchBlock: {
-                display: 'flex',
-                maxHeight: '45px',
-                borderRadius: '8px',
-                marginLeft: '28px',
-                backgroundColor: `${colors.primary[600]}`,
-                border: `${theme.palette.mode === 'light' ? `1px  solid ${colors.borderColor}` : 'none'}`
-            },
-            searchIcon: {
-                '&:hover': {
-                    'backgroundColor': 'transparent !important'
-                }
-            },
-            searchInput: {
-                padding: '12px 18px'
             }
         }
     )
